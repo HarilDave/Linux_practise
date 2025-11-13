@@ -1,0 +1,5 @@
+Line 1: Writing to file using fprintf()
+Line 2: Writing to file using fprintf()
+Line 3: Writing to file using fprintf()
+Line 4: Writing to file using fprintf()
+Line 5: Writing to file using fprintf()

@@ -1,0 +1,14 @@
+printf("Enter your name: ")                                                                                                  = 17
+__isoc99_scanf(0x55577d781022, 0x7ffddde9fa40, 0, 0x55577d781021)                                                            = 1
+snprintf("Hello, Haril_Dave!\n", 100, "Hello, %s!\n", "Haril_Dave")                                                          = 19
+strlen("Hello, Haril_Dave!\n")                                                                                               = 19
+write(1, "Hello, Haril_Dave!\n", 19)                                                                                         = 19
+fopen("ltrace_demo.txt", "w")                                                                                                = 0x55577e02aac0
+fprintf(0x55577e02aac0, "This file was created by %s\n", "Haril_Dave")                                                       = 36
+fclose(0x55577e02aac0)                                                                                                       = 0
+strdup("Memory allocation check\n")                                                                                          = 0x55577e02aca0
+printf("%s", "Memory allocation check\n")                                                                                    = 24
+free(0x55577e02aca0)                                                                                                         = <void>
+sleep(1)                                                                                                                     = 0
+puts("Done.")                                                                                                                = 6
++++ exited (status 0) +++
