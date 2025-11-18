@@ -1,0 +1,1 @@
+cmd_/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Change_kofile_name/Module.symvers := sed 's/\.ko$$/\.o/' /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Change_kofile_name/modules.order | scripts/mod/modpost -m -a  -o /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Change_kofile_name/Module.symvers -e -i Module.symvers   -T -

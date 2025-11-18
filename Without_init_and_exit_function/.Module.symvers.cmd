@@ -1,0 +1,1 @@
+cmd_/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Without_init_and_exit_function/Module.symvers := sed 's/\.ko$$/\.o/' /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Without_init_and_exit_function/modules.order | scripts/mod/modpost -m -a  -o /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Without_init_and_exit_function/Module.symvers -e -i Module.symvers   -T -

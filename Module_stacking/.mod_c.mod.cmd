@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Module_stacking/mod_c.mod := printf '%s\n'   mod_c.o | awk '!x[$$0]++ { print("/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Module_stacking/"$$0) }' > /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Module_stacking/mod_c.mod

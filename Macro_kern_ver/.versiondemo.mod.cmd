@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Macro_kern_ver/versiondemo.mod := printf '%s\n'   versiondemo.o | awk '!x[$$0]++ { print("/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Macro_kern_ver/"$$0) }' > /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Macro_kern_ver/versiondemo.mod

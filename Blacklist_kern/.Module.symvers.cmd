@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Blacklist_kern/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Blacklist_kern/Module.symvers -T /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Blacklist_kern/modules.order -i Module.symvers -e 

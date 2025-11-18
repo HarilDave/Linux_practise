@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Macro_kern_ver/modules.order := {   echo /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Macro_kern_ver/versiondemo.o; :; } > /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Macro_kern_ver/modules.order

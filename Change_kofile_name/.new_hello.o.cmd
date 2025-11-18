@@ -1,0 +1,1 @@
+cmd_/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Change_kofile_name/new_hello.o := ld -m elf_x86_64   -r -o /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Change_kofile_name/new_hello.o /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Change_kofile_name/hello.o

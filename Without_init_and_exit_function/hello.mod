@@ -1,0 +1,2 @@
+/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Without_init_and_exit_function/hello.o
+

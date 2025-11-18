@@ -1,0 +1,1 @@
+cmd_/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Change_kofile_name/new_hello.mod := { echo  /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Change_kofile_name/hello.o;  echo; } > /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Change_kofile_name/new_hello.mod

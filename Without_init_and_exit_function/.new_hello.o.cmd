@@ -1,0 +1,1 @@
+cmd_/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Without_init_and_exit_function/new_hello.o := ld -m elf_x86_64   -r -o /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Without_init_and_exit_function/new_hello.o /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Without_init_and_exit_function/hello.o

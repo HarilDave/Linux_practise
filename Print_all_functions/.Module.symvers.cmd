@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Print_all_functions/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Print_all_functions/Module.symvers -T /home/haril/Desktop/Haril/Linux_playlist_2_worksheet/Print_all_functions/modules.order -i Module.symvers -e 

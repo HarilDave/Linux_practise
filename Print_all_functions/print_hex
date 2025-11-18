@@ -1,0 +1,46 @@
+// file: print_hex_demo.c
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/kernel.h>
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Haril");
+MODULE_DESCRIPTION("Demo: printing hex numbers in kernel");
+MODULE_VERSION("1.0");
+
+static int __init print_hex_demo_init(void)
+{
+    int num = 1234;
+    u32 val32 = 0xDEADBEEF;
+    u64 val64 = 0x1122334455667788ULL;
+    void *ptr = (void *)0xFFFF000012345678;
+
+    printk(KERN_INFO "===== Hex Print Demo Start =====\n");
+
+    // normal integer
+    printk(KERN_INFO "num (dec) = %d\n", num);
+    printk(KERN_INFO "num (hex) = 0x%x\n", num);
+
+    // 32-bit hex
+    printk(KERN_INFO "val32 = 0x%08x\n", val32);
+
+    // 64-bit hex (llx)
+    printk(KERN_INFO "val64 = 0x%016llx\n", val64);
+
+    // pointer printing
+    printk(KERN_INFO "ptr (safe)     = %p\n", ptr);   // hashed by KASLR
+    printk(KERN_INFO "ptr (raw hex)  = %px\n", ptr);  // exact address
+
+    printk(KERN_INFO "===== Hex Print Demo End =====\n");
+
+    return 0;
+}
+
+static void __exit print_hex_demo_exit(void)
+{
+    printk(KERN_INFO "print_hex_demo: module removed\n");
+}
+
+module_init(print_hex_demo_init);
+module_exit(print_hex_demo_exit);
+
