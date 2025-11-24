@@ -1,0 +1,43 @@
+1) What does ioctl() allow that read() and write() do not?
+
+ioctl() allows:
+
+Sending commands to the driver, not just raw data
+Passing configuration, control instructions, status requests
+Handling multiple types of operations inside one file descriptor
+Advanced operations like:
+Turn ON/OFF a feature
+Set the device speed
+Reset hardware
+Read/write registers
+Get device metadata
+read()/write() only transfer bytes, but ioctl() performs specific actions
+
+
+ 2. Why do we need copy_to_user() or copy_from_user()?
+
+Because:
+
+User space and Kernel space have separate memory
+Kernel cannot directly access user pointers (security + memory protection)
+Direct access may cause:
+Page faults
+Crashes
+Security vulnerabilities
+So we must use:
+copy_from_user() → move data from user → kernel
+copy_to_user() → move data from kernel → user
+These functions validate the pointer and ensure safe access.
+
+
+ 3. What does _IO vs _IOR mean?
+
+These are macros to define ioctl command types.
+
+Macro	Meaning	Data Direction
+_IO	No data transfer	Command only
+_IOR	Read data from driver	Kernel → User
+_IOW	Write data to driver	User → Kernel
+_IOWR	Both read + write	Bidirectional
+
+

@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_12/autodev.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_12/autodev.ko /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_12/autodev.o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_12/autodev.mod.o

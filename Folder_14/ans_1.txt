@@ -1,0 +1,91 @@
+1. What’s the difference between blocking and non-blocking I/O?
+
+Blocking I/O
+
+If data is not available → read() sleeps (waits)
+Process is paused until data arrives
+Writer wakes the reader when data becomes available
+
+Example:
+cat /dev/mydev
+If no data, cat will hang and wait.
+
+Non-Blocking I/O
+
+If data is not available → read() returns immediately
+Returns: -EAGAIN (“try later”)
+The process does NOT sleep
+User app sets this using O_NONBLOCK when opening the device.
+
+
+2. What happens if wait_event_interruptible() is used without a condition?
+
+Example BAD code:
+wait_event_interruptible(wq);
+
+This is wrong because:
+
+There is no condition to wake on
+Process may sleep forever
+Even if you call wake_up_interruptible(),
+the reader may wake up but immediately sleep again, because no condition becomes true.
+
+Why condition is needed?
+
+wait_event_interruptible(wq, condition) works like this:
+If condition is false → sleep
+When someone calls wake_up_interruptible() → check condition again
+If condition becomes true → exit the wait
+If not → sleep again
+So the condition tells the kernel WHEN sleep should end.
+Without condition → kernel cannot decide → infinite sleep.
+
+
+
+3. Why do we need a mutex along with wait queues?
+
+Wait queues only manage sleep and wake-up.
+They do NOT protect data.
+Example problem (without mutex):
+Two readers wake at the same time:
+Both try to read the same data
+Both may modify data_available
+Both may corrupt buffer
+Race condition will happen
+
+Mutex purpose:
+
+Protect shared data (buffer, flags, counters)
+Make sure only one thread reads or writes shared memory at a time
+Wait Queue = sleep/wake
+Mutex = protect shared memory
+
+Both are needed.
+
+
+4. What happens if multiple readers are waiting?
+Scenario:
+
+Reader1 → wait
+Reader2 → wait
+Reader3 → wait
+
+They all sleep on the same wait queue.
+
+When writer writes data:
+wake_up_interruptible(&wq);
+Kernel wakes ALL waiting readers.
+
+But:
+
+Only one reader will successfully read the data (because mutex locks).
+Others will read empty/old data OR block again depending on logic.
+This behavior is normal.
+Wait queue DOES NOT:
+Choose a specific reader
+Deliver data to all readers
+Balance load
+It simply wakes everyone waiting.
+
+
+

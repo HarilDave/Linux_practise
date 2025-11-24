@@ -1,0 +1,55 @@
+1. What’s the difference between major and minor numbers?
+
+Major number
+
+Identifies which driver should handle the device.
+All devices with the same major go to the same driver.
+
+Minor number
+
+Identifies which instance of the driver you are accessing.
+
+
+2. Why do we use container_of() in open()?
+
+Because in open(), the kernel only gives us
+inode->i_cdev
+container_of() converts:
+cdev pointer  →  pointer to your parent struct (mydev_t)
+
+
+3. What happens if two devices share the same buffer[]?
+
+If they share a single buffer:
+
+/dev/mydev0 and /dev/mydev1 would overwrite each other’s data
+Reads/writes would mix
+No isolation between devices
+Data corruption or unexpected results
+
+
+4. How does private_data help isolate devices?
+
+In open():
+file->private_data = dev;
+struct mydev_t *dev = file->private_data;
+This means:
+
+Each file descriptor gets its own pointer to the correct device instance.
+So /dev/mydev0 always uses buffer0
+/dev/mydev1 always uses buffer1
+No mixing
+Full isolation
+
+
+5. What is MKDEV() and why is it needed?
+
+MKDEV(major, minor) creates a dev_t value out of:
+major number
+minor number
+
+we need this when:
+Registering devices
+Calling cdev_add()
+Calling device_create()
+Destroying devices

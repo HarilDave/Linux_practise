@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_6/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_6/Module.symvers -T /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_6/modules.order -i Module.symvers -e 

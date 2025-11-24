@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_13/multi_dev.mod := printf '%s\n'   multi_dev.o | awk '!x[$$0]++ { print("/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_13/"$$0) }' > /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_13/multi_dev.mod

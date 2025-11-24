@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_6/ans_2.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_6/ans_2.ko /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_6/ans_2.o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_6/ans_2.mod.o

@@ -1,0 +1,23 @@
+What is a kernel module?
+
+A kernel module is a piece of code that can be added to the Linux kernel without rebooting. It provides additional features like drivers for USB, network cards, or custom character devices. This makes the kernel flexible and extendable. Modules can also be removed when not needed.
+
+
+Why do we use printk() instead of printf()?
+
+printf() works only in user space, but the kernel does not have access to standard C libraries. Therefore, the kernel uses printk() for logging messages. printk() writes to the kernel log buffer, which we can view using dmesg. It also supports log levels for debugging.
+
+
+What does insmod do?
+
+insmod loads a .ko module file into the running kernel. When you run it, the kernel executes the module’s module_init() function. It resolves symbols and makes the module active. If something is missing, insmod reports unresolved symbols.
+
+
+What is the purpose of module_init() and module_exit()?
+
+module_init() defines the function that runs when the module is loaded. It is used to initialize variables, register devices, or print messages. module_exit() defines the cleanup function that runs when the module is removed. It frees resources and prints shutdown messages.
+
+
+Why should kernel modules be tested in VMs?
+
+Kernel errors can crash the entire system because they run in privileged mode. Testing in a VM ensures your main OS remains safe even if the module panics or hangs. VMs allow you to take snapshots and revert easily. This is why beginners always test kernel modules in virtual machines.

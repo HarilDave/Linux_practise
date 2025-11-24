@@ -1,0 +1,35 @@
+make menuconfig
+
+Opens a text-based menu that lets you enable/disable kernel features and drivers.
+It creates or updates the .config file.
+
+
+make -j$(nproc)
+
+Builds (compiles) the kernel using all CPU cores.
+nproc = number of CPU cores
+-j = parallel build
+This makes compilation much faster.
+
+
+make modules_install
+
+Installs all kernel modules into <kernel-version>
+
+
+make install
+
+Installs:
+Kernel image (vmlinuz-*)
+System.map
+Configuration
+Updates /boot
+Installs files into /boot
+Runs commands that add the kernel to GRUB
+
+
+vmlinuz-*	    The compressed Linux kernel that boots.
+System.map-*	    A map of kernel symbols (function + variable addresses) for debugging.
+.config	            The configuration used to build the kernel (all enabled/disabled options).
+/lib/modules/*	    All kernel modules (drivers) for that specific kernel version.
+initramfs	    Temporary RAM filesystem used during early boot to load drivers and mount root filesystem.

@@ -1,0 +1,32 @@
+Why do we use copy_from_user()?
+
+Because kernel code cannot directly access userspace memory.
+copy_from_user() safely copies data from userspace (like echo input) into a kernel buffer.
+This prevents crashes and protects memory.
+
+3) What is 0666 permission for?
+
+Permissions 0666 mean:
+
+Read + Write for owner
+
+Read + Write for group
+
+Read + Write for others
+
+So everyone can read and write to your /proc file.
+
+4) What happens if you don’t null-terminate the string?
+
+The kernel will read garbage characters after the valid input, or crash.
+String functions like strncmp() and strcmp() expect a \0 at the end.
+Without null termination, results become unpredictable.
+
+5) What’s the difference between proc_read and seq_file?
+
+proc_read	                             seq_file
+
+Basic, manual read method	      Advanced interface for reading
+You must handle buffer sizes	      Kernel handles buffering
+Good for small output	              Good for large or multi-line output
+write simple code	              safer and more efficient

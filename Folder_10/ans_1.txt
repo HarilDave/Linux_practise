@@ -1,0 +1,33 @@
+🔹 What is the purpose of using a ring buffer?
+
+To store multiple messages instead of just one.
+Works like a queue (FIFO): first written → first read.
+Reuses a fixed-size array in a circular way (no need to shift data).
+Avoids wasting memory and is efficient for streaming/logging data.
+
+
+🔹 How does a mutex protect shared resources?
+
+A mutex allows only one thread/process at a time to enter a critical section.
+When one writer holds the lock, others must wait.
+Prevents:
+Two writes happening at the same time
+Reading half-updated data
+Race conditions and data corruption
+
+
+What happens when buffer is full?
+
+msg_count >= MAX_MSGS (or >= max_messages):
+No more space to store new messages.
+Driver must either:
+Drop the new message (like in example),
+OR overwrite oldest message (classic ring buffer behavior),
+OR block and wait (advanced).
+In your example, it prints a warning and returns -ENOMEM.
+
+
+🔹 How do read_index and write_index help?
+
+write_index → position where the next write will store data.
+read_index → position where the next read will take data from.

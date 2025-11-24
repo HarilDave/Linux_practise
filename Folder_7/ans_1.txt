@@ -1,0 +1,29 @@
+1) What is the /proc filesystem?
+
+/proc is a virtual filesystem created by the kernel.
+It does not store real files — instead, it shows live kernel information such as processes, memory, CPU, and driver details.
+Files inside /proc change instantly as the system changes.
+
+2) What is the purpose of seq_printf()?
+
+seq_printf() is used inside /proc and /debugfs files to print data safely.
+It ensures large outputs print correctly, even when the user reads them in multiple chunks.
+It works with the seq_file interface so you don’t have to manage buffers manually.
+
+3) Why do we need proc_create()?
+
+proc_create() is used to create a new file inside /proc.
+It connects a filename (like /proc/myinfo) to your module’s read function.
+Without it, your /proc entry won’t exist.
+
+4) What happens if you forget remove_proc_entry()?
+
+If you forget to remove the entry, /proc/myinfo will stay even after removing the module.
+This causes dangling entries, and reading them may crash or freeze the system.
+So cleanup is mandatory.
+
+5) How does cat /proc/myinfo fetch data from the kernel?
+
+When you run cat, the kernel calls your module’s show() function.
+Inside this function, you print data using seq_printf().
+The output is then sent directly to the terminal.

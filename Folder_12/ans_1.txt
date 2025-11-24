@@ -1,0 +1,30 @@
+ 1. Why is alloc_chrdev_region() better than register_chrdev()?
+
+register_chrdev() uses a fixed major number → may conflict with other drivers.
+alloc_chrdev_region() gives a free major dynamically → no conflict.
+Dynamic major numbers are the modern, recommended method.
+Works smoothly with udev + automatic /dev creation.
+
+
+
+ 2. What does class_create() actually do?
+
+It creates a class entry in /sys/class/<your_class>/.
+This class groups similar devices (e.g., all USB devices under “usb”).
+It is required so that device_create() can place your device under that class.
+Without class_create(), udev cannot know the device type.
+
+
+
+ 3. What role does udev play in device node creation?
+
+udev listens for kernel events (uevents).
+When your driver calls device_create(), kernel sends a uevent.
+udev receives that event and automatically creates:
+
+
+4. What is cleaned by device_destroy()?
+
+It removes device entry under
+/sys/class/<class>/<device>
+
