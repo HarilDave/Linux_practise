@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Project_linux/New_project_driver/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/haril/Desktop/Haril/Project_linux/New_project_driver/Module.symvers -T /home/haril/Desktop/Haril/Project_linux/New_project_driver/modules.order -i Module.symvers -e 

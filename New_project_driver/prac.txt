@@ -1,0 +1,228 @@
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/fs.h>
+#include <linux/cdev.h>
+#include <linux/device.h>
+#include <linux/uaccess.h>
+#include <linux/mutex.h>
+#include <linux/semaphore.h>
+#include <linux/string.h>
+
+#define DEV_NAME   "vblock"
+
+/* ---------------- STORAGE SETUP ---------------- */
+
+#define TOTAL_SIZE   4096
+#define REGION_SIZE  512
+#define REGIONS      (TOTAL_SIZE / REGION_SIZE)
+
+/* ---------------- IOCTL NUMBERS ---------------- */
+
+#define VBLOCK_MAGIC 'V'
+#define LOCK_REGION     _IOW(VBLOCK_MAGIC, 1, int)
+#define UNLOCK_REGION   _IOW(VBLOCK_MAGIC, 2, int)
+#define GET_INFO        _IOR(VBLOCK_MAGIC, 3, unsigned long)
+
+/* ---------------- MODULE PARAMETERS ---------------- */
+
+static int user_keys[8];
+static int key_count;
+module_param_array(user_keys, int, &key_count, 0644);
+
+static int mirror_enable = 0;
+module_param(mirror_enable, int, 0644);
+
+/* ---------------- DEVICE DATA ---------------- */
+
+static char storage[TOTAL_SIZE];
+static char mirror[TOTAL_SIZE];
+static int region_locked[REGIONS];
+
+static struct semaphore region_sem[REGIONS];
+static DEFINE_MUTEX(dev_lock);
+
+/* ---------------- CHAR DEVICE ---------------- */
+
+static dev_t dev;
+static struct cdev cdev;
+static struct class *cls;
+
+/* ---------------- HELPERS ---------------- */
+
+static int key_valid(int key)
+{
+    int i;
+    for (i = 0; i < key_count; i++)
+        if (user_keys[i] == key)
+            return 1;
+    return 0;
+}
+
+/* ---------------- FILE OPS ---------------- */
+
+static ssize_t dev_read(struct file *f, char __user *buf,
+                        size_t len, loff_t *off)
+{
+    if (*off >= TOTAL_SIZE)
+        return 0;
+
+    if (*off + len > TOTAL_SIZE)
+        len = TOTAL_SIZE - *off;
+
+    if (copy_to_user(buf, &storage[*off], len))
+        return -EFAULT;
+
+    *off += len;
+    return len;
+}
+
+/*
+ * write format:
+ *   offset:data
+ *   key:offset:data
+ */
+static ssize_t dev_write(struct file *f, const char __user *buf,
+                         size_t len, loff_t *off)
+{
+    char kbuf[128];
+    char *p1, *p2, *data;
+    long offset;
+    int key = -1;
+    int region;
+
+    if (len >= sizeof(kbuf))
+        return -EINVAL;
+
+    if (copy_from_user(kbuf, buf, len))
+        return -EFAULT;
+
+    kbuf[len] = '\0';
+
+    p1 = strchr(kbuf, ':');
+    if (!p1) return -EINVAL;
+
+    p2 = strchr(p1 + 1, ':');
+
+    if (p2) {
+        *p1 = 0; *p2 = 0;
+        kstrtoint(kbuf, 10, &key);
+        kstrtol(p1 + 1, 10, &offset);
+        data = p2 + 1;
+    } else {
+        *p1 = 0;
+        kstrtol(kbuf, 10, &offset);
+        data = p1 + 1;
+    }
+
+    if (offset < 0 || offset >= TOTAL_SIZE)
+        return -EINVAL;
+
+    region = offset / REGION_SIZE;
+
+    if ((offset + strlen(data) - 1) / REGION_SIZE != region)
+        return -EINVAL;
+
+    down(&region_sem[region]);
+    mutex_lock(&dev_lock);
+
+    if (region_locked[region] && !key_valid(key)) {
+        mutex_unlock(&dev_lock);
+        up(&region_sem[region]);
+        return -EACCES;
+    }
+
+    memcpy(&storage[offset], data, strlen(data));
+    if (mirror_enable)
+        memcpy(&mirror[offset], data, strlen(data));
+
+    mutex_unlock(&dev_lock);
+    up(&region_sem[region]);
+
+    return len;
+}
+
+static long dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+{
+    int region;
+    unsigned long bitmap = 0;
+    int i;
+
+    switch (cmd) {
+
+    case LOCK_REGION:
+        copy_from_user(&region, (int *)arg, sizeof(int));
+        region_locked[region] = 1;
+        break;
+
+    case UNLOCK_REGION:
+        copy_from_user(&region, (int *)arg, sizeof(int));
+        region_locked[region] = 0;
+        break;
+
+    case GET_INFO:
+        for (i = 0; i < REGIONS; i++)
+            if (region_locked[i])
+                bitmap |= (1 << i);
+        copy_to_user((unsigned long *)arg, &bitmap, sizeof(bitmap));
+        break;
+
+    default:
+        return -EINVAL;
+    }
+
+    return 0;
+}
+
+static struct file_operations fops = {
+    .read = dev_read,
+    .write = dev_write,
+    .unlocked_ioctl = dev_ioctl,
+};
+
+/* ---------------- INIT / EXIT ---------------- */
+
+static int __init dev_init(void)
+{
+    int i;
+
+    alloc_chrdev_region(&dev, 0, 1, DEV_NAME);
+    cdev_init(&cdev, &fops);
+    cdev_add(&cdev, dev, 1);
+
+    cls = class_create(THIS_MODULE, DEV_NAME);
+    device_create(cls, NULL, dev, NULL, DEV_NAME);
+
+    for (i = 0; i < REGIONS; i++) {
+        sema_init(&region_sem[i], 1);
+        region_locked[i] = 0;
+    }
+
+    return 0;
+}
+
+static void __exit dev_exit(void)
+{
+    device_destroy(cls, dev);
+    class_destroy(cls);
+    cdev_del(&cdev);
+    unregister_chrdev_region(dev, 1);
+}
+
+module_init(dev_init);
+module_exit(dev_exit);
+MODULE_LICENSE("GPL");
+
+
+
+
+
+/*
+make
+sudo insmod vblock_simple.ko user_keys=123 mirror_enable=1
+ls /dev/vblock
+echo "0:HELLO" > /dev/vblock
+ioctl(fd, LOCK_REGION, &region);
+echo "123:0:WORLD" > /dev/vblock
+*/
+
+

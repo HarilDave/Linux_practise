@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Project_linux/Project_2/keypad_driver.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/haril/Desktop/Haril/Project_linux/Project_2/keypad_driver.ko /home/haril/Desktop/Haril/Project_linux/Project_2/keypad_driver.o /home/haril/Desktop/Haril/Project_linux/Project_2/keypad_driver.mod.o

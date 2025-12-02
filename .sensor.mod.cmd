@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Project_linux/sensor.mod := printf '%s\n'   sensor.o | awk '!x[$$0]++ { print("/home/haril/Desktop/Haril/Project_linux/"$$0) }' > /home/haril/Desktop/Haril/Project_linux/sensor.mod

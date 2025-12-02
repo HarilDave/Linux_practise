@@ -1,0 +1,185 @@
+// led_ctl.c
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/fs.h>
+#include <linux/cdev.h>
+#include <linux/device.h>
+#include <linux/uaccess.h>
+#include <linux/mutex.h>
+#include <linux/ioctl.h>
+
+extern void led_hw_set_state(int on, unsigned int blink_rate);
+
+#define LEDCTL_IOC_MAGIC 'L'
+
+#define LED_ON        _IO(LEDCTL_IOC_MAGIC, 1)
+#define LED_OFF       _IO(LEDCTL_IOC_MAGIC, 2)
+#define LED_SET_BLINK _IOW(LEDCTL_IOC_MAGIC, 3, unsigned int)
+#define LED_GET_STATUS _IOR(LEDCTL_IOC_MAGIC, 4, struct led_status)
+
+struct led_status {
+    int on;                 /* 0 = OFF, 1 = ON */
+    unsigned int blink_rate;/* in Hz or arbitrary units */
+};
+
+static unsigned int default_blink_rate = 1;
+module_param(default_blink_rate, uint, 0644);
+MODULE_PARM_DESC(default_blink_rate, "Default LED blink rate");
+
+static dev_t led_dev_number;
+static struct cdev led_cdev;
+static struct class *led_class;
+
+static struct led_status led_state;
+static DEFINE_MUTEX(led_lock);
+
+static int led_open(struct inode *inode, struct file *filp)
+{
+    return 0;
+}
+
+static int led_release(struct inode *inode, struct file *filp)
+{
+    return 0;
+}
+
+static ssize_t led_read(struct file *filp, char __user *buf,
+                        size_t count, loff_t *ppos)
+{
+    struct led_status tmp;
+
+    if (count < sizeof(struct led_status))
+        return -EINVAL;
+
+    mutex_lock(&led_lock);
+    tmp = led_state;
+    mutex_unlock(&led_lock);
+
+    if (copy_to_user(buf, &tmp, sizeof(tmp)))
+        return -EFAULT;
+
+    return sizeof(tmp);
+}
+
+static ssize_t led_write(struct file *filp, const char __user *buf,
+                         size_t count, loff_t *ppos)
+{
+    /* Not used in this design; provided just to satisfy requirement */
+    return -EINVAL;
+}
+
+static long led_ioctl(struct file *filp, unsigned int cmd,
+                      unsigned long arg)
+{
+    unsigned int rate;
+    struct led_status tmp;
+
+    switch (cmd) {
+    case LED_ON:
+        mutex_lock(&led_lock);
+        led_state.on = 1;
+        led_hw_set_state(led_state.on, led_state.blink_rate);
+        mutex_unlock(&led_lock);
+        return 0;
+
+    case LED_OFF:
+        mutex_lock(&led_lock);
+        led_state.on = 0;
+        led_hw_set_state(led_state.on, led_state.blink_rate);
+        mutex_unlock(&led_lock);
+        return 0;
+
+    case LED_SET_BLINK:
+        if (copy_from_user(&rate, (void __user *)arg, sizeof(rate)))
+            return -EFAULT;
+
+        mutex_lock(&led_lock);
+        led_state.blink_rate = rate;
+        led_hw_set_state(led_state.on, led_state.blink_rate);
+        mutex_unlock(&led_lock);
+        return 0;
+
+    case LED_GET_STATUS:
+        mutex_lock(&led_lock);
+        tmp = led_state;
+        mutex_unlock(&led_lock);
+
+        if (copy_to_user((void __user *)arg, &tmp, sizeof(tmp)))
+            return -EFAULT;
+
+        return 0;
+
+    default:
+        return -EINVAL;
+    }
+}
+
+static const struct file_operations led_fops = {
+    .owner          = THIS_MODULE,
+    .open           = led_open,
+    .release        = led_release,
+    .read           = led_read,
+    .write          = led_write,
+    .unlocked_ioctl = led_ioctl,
+};
+
+static int __init led_ctl_init(void)
+{
+    int ret;
+
+    mutex_lock(&led_lock);
+    led_state.on = 0;
+    led_state.blink_rate = default_blink_rate;
+    mutex_unlock(&led_lock);
+
+    ret = alloc_chrdev_region(&led_dev_number, 0, 1, "ledctl");
+    if (ret)
+        return ret;
+
+    cdev_init(&led_cdev, &led_fops);
+    led_cdev.owner = THIS_MODULE;
+
+    ret = cdev_add(&led_cdev, led_dev_number, 1);
+    if (ret)
+        goto unregister_region;
+
+    led_class = class_create(THIS_MODULE, "ledctl_class");
+    if (IS_ERR(led_class)) {
+        ret = PTR_ERR(led_class);
+        goto del_cdev;
+    }
+
+    if (!device_create(led_class, NULL, led_dev_number, NULL, "ledctl")) {
+        ret = -ENOMEM;
+        goto destroy_class;
+    }
+
+    pr_info("led_ctl: module loaded, /dev/ledctl ready\n");
+    return 0;
+
+destroy_class:
+    class_destroy(led_class);
+del_cdev:
+    cdev_del(&led_cdev);
+unregister_region:
+    unregister_chrdev_region(led_dev_number, 1);
+    return ret;
+}
+
+static void __exit led_ctl_exit(void)
+{
+    device_destroy(led_class, led_dev_number);
+    class_destroy(led_class);
+    cdev_del(&led_cdev);
+    unregister_chrdev_region(led_dev_number, 1);
+    pr_info("led_ctl: module unloaded\n");
+}
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("You");
+MODULE_DESCRIPTION("LED controller with IOCTL and mutex");
+
+module_init(led_ctl_init);
+module_exit(led_ctl_exit);
+

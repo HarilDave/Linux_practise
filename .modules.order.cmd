@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Project_linux/modules.order := {   echo /home/haril/Desktop/Haril/Project_linux/sensor.o;   echo /home/haril/Desktop/Haril/Project_linux/temp_driver.o; :; } > /home/haril/Desktop/Haril/Project_linux/modules.order
