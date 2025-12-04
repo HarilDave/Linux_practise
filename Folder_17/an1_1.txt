@@ -1,0 +1,35 @@
+1. What triggers the call to probe() in a platform driver?
+
+probe() is called when a platform device and platform driver names match.
+Trigger event happens when:
+platform_device_register() is executed after driver is loaded, OR
+platform_driver_register() is executed after device is registered.
+Matching event = probe() call.
+
+
+2. Can you have multiple platform devices with the same name?
+
+Yes, multiple devices can use the same name, but each needs a unique .id
+
+Example:
+.name = "mydev"
+.id = 0, 1, 2 ...
+
+
+3. What does platform_driver_unregister() do?
+
+Removes the platform driver from the kernel.
+Unbinds any currently attached devices.
+Calls the driver's remove() function for each device bound to it.
+
+
+4. What is the significance of .id = -1 in a platform device?
+
+Means only one instance of this device exists.
+Tells kernel: no multiple indexed devices, do not expect 0,1,2… numbering.
+
+
+5. Where is pdev->name compared during matching?
+
+Compared inside the kernel matching logic:
+drivers/base/platform.c

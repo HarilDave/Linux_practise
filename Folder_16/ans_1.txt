@@ -1,0 +1,45 @@
+1. What is EXPORT_SYMBOL() used for?
+
+Used to export functions or variables from one kernel module so they can be accessed by other modules.
+Makes a symbol visible in the global kernel symbol table (/proc/kallsyms).
+Enables modular driver design (e.g., core driver + feature modules)
+
+
+2. Why does loading order matter?
+
+Because dependent modules must be loaded after the module that exports the symbol they need.
+If a module tries to use a symbol that is not yet loaded, the kernel cannot link it.
+
+Example:
+core_driver.ko exports function core_init()
+device_driver.ko calls core_init()
+
+→ must load in order:
+
+insmod core_driver.ko
+insmod device_driver.ko
+
+
+3. What happens if a module uses a symbol before it's exported?
+
+Module loading will fail with unresolved symbol errors.
+You will see in dmesg:
+Unknown symbol: core_init
+
+4. How is device_driver.ko logically dependent on core_driver.ko?
+
+core_driver.ko	                            device_driver.ko
+
+Provides shared functionality	            Uses/consumes that functionality
+Exports symbols (EXPORT_SYMBOL())	    Imports symbols
+Must be loaded first	                    Must be loaded after
+
+5. Can you export data structures too?
+Yes ✔️
+
+You can export:
+
+Variables
+Arrays
+Structs
+Function pointers

@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_24/gpiobtn_char.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_24/gpiobtn_char.ko /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_24/gpiobtn_char.o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_24/gpiobtn_char.mod.o

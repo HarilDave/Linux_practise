@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_18/modules.order := {   echo /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_18/platform_device.o;   echo /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_18/dt_platform_driver.o; :; } > /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_18/modules.order

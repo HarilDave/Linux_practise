@@ -1,0 +1,48 @@
+1. What is the role of the compatible string?
+
+It is the key identifier used to match a Device Tree node with a platform driver.
+Driver declares compatible strings in of_match_table.
+Device Tree node declares it under compatible = "...";
+If strings match → probe() is called.
+
+
+2. What happens if status = "disabled" in the DT?
+
+The kernel ignores the device node.
+No platform device is created.
+Thus probe() is never called.
+Used to disable unused hardware on a board.
+
+
+3. How does the kernel associate the DT node to a platform device?
+
+Step	Action
+1	Kernel parses .dtb at boot
+2	Creates a platform_device for each enabled DT node
+3	Compares DT compatible strings with driver of_match_table
+4	On match → calls probe()
+
+So: DT node → platform device → platform driver
+
+
+4. Can one driver match multiple compatible strings?
+
+Yes ✔
+Drivers often support multiple hardware versions.
+
+Example:
+static const struct of_device_id dt_ids[] = {
+    { .compatible = "myvendor,mydevice-v1" },
+    { .compatible = "myvendor,mydevice-v2" },
+    { }
+};
+
+
+5. What does of_property_read_u32() do?
+
+Reads a 32-bit integer property from the DT node.
+Writes result into the given variable.
+Returns 0 on success, non-zero on failure.
+
+Example:
+of_property_read_u32(np, "id", &data.id);
