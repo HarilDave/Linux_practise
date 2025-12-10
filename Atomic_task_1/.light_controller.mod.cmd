@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Project_linux/Atomic_task_1/light_controller.mod := printf '%s\n'   light_controller.o | awk '!x[$$0]++ { print("/home/haril/Desktop/Haril/Project_linux/Atomic_task_1/"$$0) }' > /home/haril/Desktop/Haril/Project_linux/Atomic_task_1/light_controller.mod

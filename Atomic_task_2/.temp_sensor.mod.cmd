@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Project_linux/Atomic_task_2/temp_sensor.mod := printf '%s\n'   temp_sensor.o | awk '!x[$$0]++ { print("/home/haril/Desktop/Haril/Project_linux/Atomic_task_2/"$$0) }' > /home/haril/Desktop/Haril/Project_linux/Atomic_task_2/temp_sensor.mod

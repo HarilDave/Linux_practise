@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Project_linux/Atomic_task_1/modules.order := {   echo /home/haril/Desktop/Haril/Project_linux/Atomic_task_1/light_controller.o; :; } > /home/haril/Desktop/Haril/Project_linux/Atomic_task_1/modules.order

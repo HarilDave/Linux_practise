@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Project_linux/Atomic_task_2/temp_sensor.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/haril/Desktop/Haril/Project_linux/Atomic_task_2/temp_sensor.ko /home/haril/Desktop/Haril/Project_linux/Atomic_task_2/temp_sensor.o /home/haril/Desktop/Haril/Project_linux/Atomic_task_2/temp_sensor.mod.o

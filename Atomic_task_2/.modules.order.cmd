@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Project_linux/Atomic_task_2/modules.order := {   echo /home/haril/Desktop/Haril/Project_linux/Atomic_task_2/temp_sensor.o; :; } > /home/haril/Desktop/Haril/Project_linux/Atomic_task_2/modules.order

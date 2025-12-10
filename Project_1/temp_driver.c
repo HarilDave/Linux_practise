@@ -8,38 +8,38 @@
 #include <linux/uaccess.h>    // copy_to_user, copy_from_user
 #include <linux/mutex.h>
 
-// === External function from helper module ===
+
 extern int get_sensor_temp(void);
 
-// === IOCTL definitions ===
+
 #define TEMP_IOC_MAGIC      'T'
 #define TEMP_IOC_SET_HIGH   _IOW(TEMP_IOC_MAGIC, 1, int)
 #define TEMP_IOC_SET_LOW    _IOW(TEMP_IOC_MAGIC, 2, int)
 
-// === Calibration values via module_param_array ===
+
 static int calib[3] = {0, 0, 0};
 static int calib_count = 3;
 module_param_array(calib, int, &calib_count, 0644);
 MODULE_PARM_DESC(calib, "Three calibration integers");
 
-// === Character device stuff ===
+
 static dev_t dev_num;
 static struct cdev temp_cdev;
 static struct class *temp_class;
 
-// === Thresholds and mutex ===
+
 static int high_threshold = 80;
 static int low_threshold  = 20;
 static DEFINE_MUTEX(config_lock);
 
-// === Helper to apply calibration (simple example) ===
+
 static int apply_calibration(int raw)
 {
     int adjusted = raw + calib[0] - calib[1] + calib[2];
     return adjusted;
 }
 
-// === File operations ===
+
 
 static int temp_open(struct inode *inode, struct file *file)
 {
