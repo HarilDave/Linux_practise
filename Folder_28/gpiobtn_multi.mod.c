@@ -35,15 +35,23 @@ MODULE_INFO(retpoline, "Y");
 
 static const struct modversion_info ____versions[]
 __used __section("__versions") = {
+	{ 0x122c3a7e, "_printk" },
+	{ 0xee934b24, "gpiod_get_value" },
+	{ 0xc0c32ae5, "gpiod_set_value" },
+	{ 0xa193b721, "devm_kmalloc" },
+	{ 0xb8fcd043, "devm_gpiod_get" },
+	{ 0xbbac351e, "gpiod_to_irq" },
+	{ 0x3a198b71, "devm_request_threaded_irq" },
 	{ 0x4a77885d, "platform_driver_unregister" },
 	{ 0xbdfb6dbb, "__fentry__" },
 	{ 0x23509fba, "__platform_driver_register" },
 	{ 0x5b8239ca, "__x86_return_thunk" },
-	{ 0x122c3a7e, "_printk" },
 	{ 0xe2fd41e5, "module_layout" },
 };
 
 MODULE_INFO(depends, "");
 
+MODULE_ALIAS("of:N*T*Cmyvendor,gpiobtn");
+MODULE_ALIAS("of:N*T*Cmyvendor,gpiobtnC*");
 
-MODULE_INFO(srcversion, "057D2242507E4A06B2216A0");
+MODULE_INFO(srcversion, "15D1B4D95F8967C728869A1");

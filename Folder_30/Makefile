@@ -1,5 +1,4 @@
-obj-m += gpiobtn_pm.o
-obj-m += gpiobtn_fake_dev.o
+obj-m += gpiobtn.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules

@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_28/userbtn_dev.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_28/userbtn_dev.ko /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_28/userbtn_dev.o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_28/userbtn_dev.mod.o

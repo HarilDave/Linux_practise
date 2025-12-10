@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_28/modules.order := {   echo /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_28/gpiobtn_multi.o;   echo /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_28/userbtn_dev.o; :; } > /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_28/modules.order

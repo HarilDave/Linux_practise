@@ -1,8 +1,8 @@
-savedcmd_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.o := gcc-12 -Wp,-MMD,/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/.gpiobtn_pm.o.d -nostdinc -I./arch/x86/include -I./arch/x86/include/generated  -I./include -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/compiler-version.h -include ./include/linux/kconfig.h -I./ubuntu/include -include ./include/linux/compiler_types.h -D__KERNEL__ -fmacro-prefix-map=./= -std=gnu11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -fcf-protection=none -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mskip-rax-setup -mtune=generic -mno-red-zone -mcmodel=kernel -Wno-sign-compare -fno-asynchronous-unwind-tables -mindirect-branch=thunk-extern -mindirect-branch-register -mindirect-branch-cs-prefix -mfunction-return=thunk-extern -fno-jump-tables -mharden-sls=all -fpatchable-function-entry=16,16 -fno-delete-null-pointer-checks -O2 -fno-allow-store-data-races -fstack-protector-strong -fno-omit-frame-pointer -fno-optimize-sibling-calls -ftrivial-auto-var-init=zero -fno-stack-clash-protection -fzero-call-used-regs=used-gpr -pg -mrecord-mcount -mfentry -DCC_USING_FENTRY -falign-functions=16 -fno-strict-overflow -fno-stack-check -fconserve-stack -Wall -Wundef -Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Werror=strict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wframe-larger-than=1024 -Wno-main -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-dangling-pointer -Wvla -Wno-pointer-sign -Wcast-function-type -Wno-stringop-overflow -Wno-array-bounds -Wno-alloc-size-larger-than -Wimplicit-fallthrough=5 -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -Wenum-conversion -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-restrict -Wno-packed-not-aligned -Wno-format-overflow -Wno-format-truncation -Wno-stringop-truncation -Wno-override-init -Wno-missing-field-initializers -Wno-type-limits -Wno-shift-negative-value -Wno-maybe-uninitialized -Wno-sign-compare -g -gdwarf-5  -fsanitize=bounds-strict -fsanitize=shift -fsanitize=bool -fsanitize=enum  -DMODULE  -DKBUILD_BASENAME='"gpiobtn_pm"' -DKBUILD_MODNAME='"gpiobtn_pm"' -D__KBUILD_MODNAME=kmod_gpiobtn_pm -c -o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.c   ; ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --hacks=skylake --retpoline --rethunk --sls --stackval --static-call --uaccess --prefix=16   --module /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.o
+savedcmd_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_29/gpiobtn.o := gcc-12 -Wp,-MMD,/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_29/.gpiobtn.o.d -nostdinc -I./arch/x86/include -I./arch/x86/include/generated  -I./include -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/compiler-version.h -include ./include/linux/kconfig.h -I./ubuntu/include -include ./include/linux/compiler_types.h -D__KERNEL__ -fmacro-prefix-map=./= -std=gnu11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -fcf-protection=none -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mskip-rax-setup -mtune=generic -mno-red-zone -mcmodel=kernel -Wno-sign-compare -fno-asynchronous-unwind-tables -mindirect-branch=thunk-extern -mindirect-branch-register -mindirect-branch-cs-prefix -mfunction-return=thunk-extern -fno-jump-tables -mharden-sls=all -fpatchable-function-entry=16,16 -fno-delete-null-pointer-checks -O2 -fno-allow-store-data-races -fstack-protector-strong -fno-omit-frame-pointer -fno-optimize-sibling-calls -ftrivial-auto-var-init=zero -fno-stack-clash-protection -fzero-call-used-regs=used-gpr -pg -mrecord-mcount -mfentry -DCC_USING_FENTRY -falign-functions=16 -fno-strict-overflow -fno-stack-check -fconserve-stack -Wall -Wundef -Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Werror=strict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wframe-larger-than=1024 -Wno-main -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-dangling-pointer -Wvla -Wno-pointer-sign -Wcast-function-type -Wno-stringop-overflow -Wno-array-bounds -Wno-alloc-size-larger-than -Wimplicit-fallthrough=5 -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -Wenum-conversion -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-restrict -Wno-packed-not-aligned -Wno-format-overflow -Wno-format-truncation -Wno-stringop-truncation -Wno-override-init -Wno-missing-field-initializers -Wno-type-limits -Wno-shift-negative-value -Wno-maybe-uninitialized -Wno-sign-compare -g -gdwarf-5  -fsanitize=bounds-strict -fsanitize=shift -fsanitize=bool -fsanitize=enum  -DMODULE  -DKBUILD_BASENAME='"gpiobtn"' -DKBUILD_MODNAME='"gpiobtn"' -D__KBUILD_MODNAME=kmod_gpiobtn -c -o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_29/gpiobtn.o /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_29/gpiobtn.c   ; ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --hacks=skylake --retpoline --rethunk --sls --stackval --static-call --uaccess --prefix=16   --module /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_29/gpiobtn.o
 
-source_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.o := /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.c
+source_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_29/gpiobtn.o := /home/haril/Desktop/Haril/Bitlearn_module_2/Folder_29/gpiobtn.c
 
-deps_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.o := \
+deps_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_29/gpiobtn.o := \
   include/linux/compiler-version.h \
     $(wildcard include/config/CC_VERSION_TEXT) \
   include/linux/kconfig.h \
@@ -1030,13 +1030,10 @@ deps_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.o := \
     $(wildcard include/config/HAVE_MOD_ARCH_SPECIFIC) \
     $(wildcard include/config/MODULES_USE_ELF_REL) \
     $(wildcard include/config/MODULES_USE_ELF_RELA) \
-  include/linux/platform_device.h \
-    $(wildcard include/config/HAS_IOMEM) \
-    $(wildcard include/config/SUSPEND) \
-    $(wildcard include/config/HIBERNATE_CALLBACKS) \
-    $(wildcard include/config/PM_SLEEP) \
-    $(wildcard include/config/SUPERH) \
+  include/linux/miscdevice.h \
+  include/uapi/linux/major.h \
   include/linux/device.h \
+    $(wildcard include/config/HAS_IOMEM) \
     $(wildcard include/config/GENERIC_MSI_IRQ) \
     $(wildcard include/config/ENERGY_MODEL) \
     $(wildcard include/config/PINCTRL) \
@@ -1049,6 +1046,7 @@ deps_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.o := \
     $(wildcard include/config/ARCH_HAS_SYNC_DMA_FOR_CPU) \
     $(wildcard include/config/ARCH_HAS_SYNC_DMA_FOR_CPU_ALL) \
     $(wildcard include/config/DMA_OPS_BYPASS) \
+    $(wildcard include/config/PM_SLEEP) \
     $(wildcard include/config/OF) \
     $(wildcard include/config/DEVTMPFS) \
   include/linux/dev_printk.h \
@@ -1077,8 +1075,8 @@ deps_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.o := \
   arch/x86/include/asm/device.h \
   include/linux/pm_wakeup.h \
 
-/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.o: $(deps_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.o)
+/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_29/gpiobtn.o: $(deps_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_29/gpiobtn.o)
 
-$(deps_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.o):
+$(deps_/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_29/gpiobtn.o):
 
-/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_27/gpiobtn_pm.o: $(wildcard ./tools/objtool/objtool)
+/home/haril/Desktop/Haril/Bitlearn_module_2/Folder_29/gpiobtn.o: $(wildcard ./tools/objtool/objtool)

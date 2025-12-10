@@ -1,0 +1,31 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "brcm,bcm2835";   // For Raspberry Pi
+
+    fragment@0 {
+        target-path = "/";
+        __overlay__ {
+            gpiobtn0: gpiobtn@0 {
+                compatible = "myvendor,gpiobtn";
+                gpios = <&gpio 17 0>, <&gpio 27 0>;   // button0 = GPIO17, led0 = GPIO27
+                gpio-names = "button", "led";
+                status = "okay";
+            };
+        };
+    };
+
+    fragment@1 {
+        target-path = "/";
+        __overlay__ {
+            gpiobtn1: gpiobtn@1 {
+                compatible = "myvendor,gpiobtn";
+                gpios = <&gpio 22 0>, <&gpio 23 0>;   // button1 = GPIO22, led1 = GPIO23
+                gpio-names = "button", "led";
+                status = "okay";
+            };
+        };
+    };
+};
+
