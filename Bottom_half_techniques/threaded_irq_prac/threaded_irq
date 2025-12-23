@@ -1,0 +1,54 @@
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/gpio.h>
+#include <linux/interrupt.h>
+
+#define GPIO_BUTTON 25
+
+static int gpio_irq;
+
+static irqreturn_t irq_top(int irq, void *dev_id)
+{
+    return IRQ_WAKE_THREAD;
+}
+
+static irqreturn_t irq_thread(int irq, void *dev_id)
+{
+    pr_info("Threaded IRQ bottom half executed\n");
+    return IRQ_HANDLED;
+}
+
+static int __init my_init(void)
+{
+    gpio_request(GPIO_BUTTON, "gpio_button");
+    gpio_direction_input(GPIO_BUTTON);
+
+    gpio_irq = gpio_to_irq(GPIO_BUTTON);
+
+    request_threaded_irq(gpio_irq, irq_top, irq_thread, IRQF_TRIGGER_RISING, "gpio_threaded_irq", NULL);
+
+    pr_info("GPIO Threaded IRQ driver loaded\n");
+    return 0;
+}
+
+static void __exit my_exit(void)
+{
+    free_irq(gpio_irq, NULL);
+    gpio_free(GPIO_BUTTON);
+    pr_info("GPIO Threaded IRQ driver unloaded\n");
+}
+
+module_init(my_init);
+module_exit(my_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("HARIL");
+
+/*
+make
+sudo insmod driver.ko
+dmesg 
+Press the button connected to GPIO 25
+dmesg
+*/

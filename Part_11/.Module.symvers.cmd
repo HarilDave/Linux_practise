@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Embetronics_linux/Part_11/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/haril/Desktop/Haril/Embetronics_linux/Part_11/Module.symvers -T /home/haril/Desktop/Haril/Embetronics_linux/Part_11/modules.order -i Module.symvers -e 

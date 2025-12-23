@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Embetronics_linux/Part_39/simple_i2c_adapter.mod := printf '%s\n'   simple_i2c_adapter.o | awk '!x[$$0]++ { print("/home/haril/Desktop/Haril/Embetronics_linux/Part_39/"$$0) }' > /home/haril/Desktop/Haril/Embetronics_linux/Part_39/simple_i2c_adapter.mod

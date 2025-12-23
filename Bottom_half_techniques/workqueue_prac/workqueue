@@ -1,0 +1,59 @@
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/gpio.h>
+#include <linux/interrupt.h>
+#include <linux/workqueue.h>
+
+#define GPIO_BUTTON 25
+
+static int gpio_irq;
+static struct work_struct my_work;
+
+static void work_fn(struct work_struct *work)
+{
+    pr_info("Workqueue bottom half executed\n");
+}
+
+static irqreturn_t gpio_irq_handler(int irq, void *dev_id)
+{
+    schedule_work(&my_work);
+    return IRQ_HANDLED;
+}
+
+static int __init my_init(void)
+{
+    INIT_WORK(&my_work, work_fn);
+
+    gpio_request(GPIO_BUTTON, "gpio_button");
+    gpio_direction_input(GPIO_BUTTON);
+
+    gpio_irq = gpio_to_irq(GPIO_BUTTON);
+    request_irq(gpio_irq, gpio_irq_handler, IRQF_TRIGGER_RISING, "gpio_workqueue_irq", NULL);
+
+    pr_info("GPIO Workqueue driver loaded\n");
+    return 0;
+}
+
+static void __exit my_exit(void)
+{
+    cancel_work_sync(&my_work);
+    free_irq(gpio_irq, NULL);
+    gpio_free(GPIO_BUTTON);
+
+    pr_info("GPIO Workqueue driver unloaded\n");
+}
+
+module_init(my_init);
+module_exit(my_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("HARIL");
+
+/*
+make
+sudo insmod driver.ko
+dmesg 
+Press the button connected to GPIO 25
+dmesg
+*/

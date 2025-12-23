@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Embetronics_linux/Part_38/modules.order := {   echo /home/haril/Desktop/Haril/Embetronics_linux/Part_38/simple_i2c_bus.o; :; } > /home/haril/Desktop/Haril/Embetronics_linux/Part_38/modules.order

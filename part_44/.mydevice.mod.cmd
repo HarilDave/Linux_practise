@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Embetronics_linux/part_44/mydevice.mod := printf '%s\n'   mydevice.o | awk '!x[$$0]++ { print("/home/haril/Desktop/Haril/Embetronics_linux/part_44/"$$0) }' > /home/haril/Desktop/Haril/Embetronics_linux/part_44/mydevice.mod

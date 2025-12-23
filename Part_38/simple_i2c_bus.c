@@ -1,0 +1,65 @@
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/i2c.h>
+#include <linux/kernel.h>
+
+#define ADAPTER_NAME "SIMPLE_I2C_BUS"
+
+static u32 bus_supported_features(struct i2c_adapter *adap)
+{
+    return I2C_FUNC_I2C | I2C_FUNC_SMBUS_BYTE | I2C_FUNC_SMBUS_BYTE_DATA;
+}
+
+static s32 handle_i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int count)
+{
+    int i, j;
+
+    for (i = 0; i < count; i++)
+    {
+        pr_info("I2C msg %d addr=0x%x len=%d data=", i, msgs[i].addr, msgs[i].len);
+
+        for (j = 0; j < msgs[i].len; j++)
+            pr_cont("0x%02x ", msgs[i].buf[j]);
+    }
+    return count;
+}
+
+static s32 handle_smbus_transfer(struct i2c_adapter *adap, u16 addr, unsigned short flags, char read_write, u8 command, int size, union i2c_smbus_data *data)
+{
+    pr_info("SMBUS transfer\n");
+    return 0;
+}
+
+static struct i2c_algorithm bus_algorithm = 
+{
+    .master_xfer   = handle_i2c_transfer,
+    .smbus_xfer    = handle_smbus_transfer,
+    .functionality = bus_supported_features,
+};
+
+static struct i2c_adapter i2c_bus = 
+{
+    .owner = THIS_MODULE,
+    .class = I2C_CLASS_HWMON,
+    .algo  = &bus_algorithm,
+    .name  = ADAPTER_NAME,
+};
+
+static int __init load_driver(void)
+{
+    pr_info("I2C bus driver loaded\n");
+    return i2c_add_adapter(&i2c_bus);
+}
+
+static void __exit unload_driver(void)
+{
+    i2c_del_adapter(&i2c_bus);
+    pr_info("I2C bus driver unloaded\n");
+}
+
+module_init(load_driver);
+module_exit(unload_driver);
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Haril");
+

@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Embetronics_linux/Part_11/sysfs_driver.mod := printf '%s\n'   sysfs_driver.o | awk '!x[$$0]++ { print("/home/haril/Desktop/Haril/Embetronics_linux/Part_11/"$$0) }' > /home/haril/Desktop/Haril/Embetronics_linux/Part_11/sysfs_driver.mod

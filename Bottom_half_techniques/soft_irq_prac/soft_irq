@@ -1,0 +1,57 @@
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/gpio.h>
+#include <linux/interrupt.h>
+
+#define GPIO_BUTTON 25
+#define MY_SOFTIRQ  0
+
+static int gpio_irq;
+
+static void my_softirq_fn(struct softirq_action *a)
+{
+    pr_info("SoftIRQ bottom half executed\n");
+}
+
+static irqreturn_t gpio_irq_handler(int irq, void *dev_id)
+{
+    raise_softirq(MY_SOFTIRQ);
+    return IRQ_HANDLED;
+}
+
+static int __init my_init(void)
+{
+    open_softirq(MY_SOFTIRQ, my_softirq_fn);
+
+    gpio_request(GPIO_BUTTON, "gpio_button");
+    gpio_direction_input(GPIO_BUTTON);
+
+    gpio_irq = gpio_to_irq(GPIO_BUTTON);
+    request_irq(gpio_irq, gpio_irq_handler, IRQF_TRIGGER_RISING, "gpio_softirq", NULL);
+
+    pr_info("GPIO SoftIRQ driver loaded\n");
+    return 0;
+}
+
+static void __exit my_exit(void)
+{
+    free_irq(gpio_irq, NULL);
+    gpio_free(GPIO_BUTTON);
+    pr_info("GPIO SoftIRQ driver unloaded\n");
+}
+
+module_init(my_init);
+module_exit(my_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("HARIL");
+
+
+/*
+make
+sudo insmod driver.ko
+dmesg 
+Press the button connected to GPIO 25
+dmesg
+*/

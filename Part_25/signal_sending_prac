@@ -1,0 +1,150 @@
+#include <linux/kernel.h>
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/kdev_t.h>
+#include <linux/fs.h>
+#include <linux/cdev.h>
+#include <linux/device.h>
+#include <linux/uaccess.h>
+#include <linux/ioctl.h>
+#include <linux/interrupt.h>
+#include <linux/sched/signal.h>
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("HARIL");
+
+#define MY_SIG      44
+#define MY_IOCTL_REG_TASK   _IOW('a','a',int32_t*)
+#define MY_IRQ      11
+
+static struct task_struct *my_task = NULL;
+static int my_signum = 0;
+
+static dev_t mydev;
+static struct cdev mycdev;
+static struct class *myclass;
+
+static int my_open(struct inode *inode, struct file *file)
+{
+    pr_info("mydevice: open\n");
+    return 0;
+}
+
+static int my_release(struct inode *inode, struct file *file)
+{
+    if (my_task == get_current())
+        my_task = NULL;
+
+    pr_info("mydevice: release\n");
+    return 0;
+}
+
+static ssize_t my_read(struct file *filp, char __user *buf, size_t len, loff_t *off)
+{
+    pr_info("mydevice: read -> triggering interrupt\n");
+    asm("int $0x3B");     /* triggers IRQ 11 */
+    return 0;
+}
+
+static ssize_t my_write(struct file *filp, const char __user *buf, size_t len, loff_t *off)
+{
+    pr_info("mydevice: write\n");
+    return len;
+}
+
+static long my_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+{
+    if (cmd == MY_IOCTL_REG_TASK)
+    {
+        my_task = get_current();
+        my_signum = MY_SIG;
+        pr_info("mydevice: registered user task for signal\n");
+    }
+    return 0;
+}
+
+static struct file_operations fops =
+{
+    .owner          = THIS_MODULE,
+    .read           = my_read,
+    .write          = my_write,
+    .open           = my_open,
+    .release        = my_release,
+    .unlocked_ioctl = my_ioctl,
+};
+
+/* ---------------------- IRQ Handler ---------------------- */
+static irqreturn_t my_irq_handler(int irq, void *dev_id)
+{
+    struct siginfo info;
+
+    pr_info("mydevice: IRQ received\n");
+
+    memset(&info, 0, sizeof(struct siginfo));
+    info.si_signo = MY_SIG;
+    info.si_code  = SI_QUEUE;
+    info.si_int   = 1;
+
+    if (my_task != NULL)
+    {
+        pr_info("mydevice: sending signal to app\n");
+        if (send_sig_info(MY_SIG, &info, my_task) < 0)
+            pr_warn("mydevice: unable to send signal\n");
+    }
+
+    return IRQ_HANDLED;
+}
+
+/* ---------------------- Module Init ---------------------- */
+static int __init my_driver_init(void)
+{
+    if (alloc_chrdev_region(&mydev, 0, 1, "mydevice_sig") < 0)
+        return -1;
+
+    cdev_init(&mycdev, &fops);
+    if (cdev_add(&mycdev, mydev, 1) < 0)
+        goto r_chrdev;
+
+    myclass = class_create(THIS_MODULE, "myclass_sig");
+    if (IS_ERR(myclass))
+        goto r_class;
+
+    if (IS_ERR(device_create(myclass, NULL, mydev, NULL, "mydevice_sig")))
+        goto r_device;
+
+    if (request_irq(MY_IRQ, my_irq_handler, IRQF_SHARED, "mydevice_sig", &mydev))
+        goto r_irq;
+
+    pr_info("Signal driver loaded\n");
+    return 0;
+
+/* Error Handling */
+r_irq:
+    device_destroy(myclass, mydev);
+    class_destroy(myclass);
+
+r_device:
+    cdev_del(&mycdev);
+
+r_class:
+    unregister_chrdev_region(mydev, 1);
+
+r_chrdev:
+    return -1;
+}
+
+/* ---------------------- Module Exit ---------------------- */
+static void __exit my_driver_exit(void)
+{
+    free_irq(MY_IRQ, &mydev);
+    device_destroy(myclass, mydev);
+    class_destroy(myclass);
+    cdev_del(&mycdev);
+    unregister_chrdev_region(mydev, 1);
+
+    pr_info("Signal driver unloaded\n");
+}
+
+module_init(my_driver_init);
+module_exit(my_driver_exit);
+

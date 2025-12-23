@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Embetronics_linux/Part_38/simple_i2c_bus.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/haril/Desktop/Haril/Embetronics_linux/Part_38/simple_i2c_bus.ko /home/haril/Desktop/Haril/Embetronics_linux/Part_38/simple_i2c_bus.o /home/haril/Desktop/Haril/Embetronics_linux/Part_38/simple_i2c_bus.mod.o

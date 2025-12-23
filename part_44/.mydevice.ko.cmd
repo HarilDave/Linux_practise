@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Embetronics_linux/part_44/mydevice.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/haril/Desktop/Haril/Embetronics_linux/part_44/mydevice.ko /home/haril/Desktop/Haril/Embetronics_linux/part_44/mydevice.o /home/haril/Desktop/Haril/Embetronics_linux/part_44/mydevice.mod.o

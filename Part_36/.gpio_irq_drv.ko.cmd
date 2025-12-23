@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Embetronics_linux/Part_36/gpio_irq_drv.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/haril/Desktop/Haril/Embetronics_linux/Part_36/gpio_irq_drv.ko /home/haril/Desktop/Haril/Embetronics_linux/Part_36/gpio_irq_drv.o /home/haril/Desktop/Haril/Embetronics_linux/Part_36/gpio_irq_drv.mod.o

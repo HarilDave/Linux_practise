@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Embetronics_linux/Part_25/modules.order := {   echo /home/haril/Desktop/Haril/Embetronics_linux/Part_25/signal_irq_driver.o; :; } > /home/haril/Desktop/Haril/Embetronics_linux/Part_25/modules.order

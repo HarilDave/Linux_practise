@@ -1,0 +1,94 @@
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/i2c.h>
+#include <linux/kernel.h>
+#include <linux/gpio.h>
+#include <linux/i2c-algo-bit.h>
+
+#define BUS_NAME   "SIMPLE_I2C_BUS"
+
+#define SCL_PIN    20
+#define SDA_PIN    21
+
+static int read_scl(void *data)
+{
+    gpio_direction_input(SCL_PIN);
+    return gpio_get_value(SCL_PIN);
+}
+
+static int read_sda(void *data)
+{
+    gpio_direction_input(SDA_PIN);
+    return gpio_get_value(SDA_PIN);
+}
+
+static void set_scl(void *data, int val)
+{
+    gpio_direction_output(SCL_PIN, val);
+    gpio_set_value(SCL_PIN, val);
+}
+
+static void set_sda(void *data, int val)
+{
+    gpio_direction_output(SDA_PIN, val);
+    gpio_set_value(SDA_PIN, val);
+}
+
+static int gpio_init(void)
+{
+    if(!gpio_is_valid(SCL_PIN) || !gpio_is_valid(SDA_PIN))
+        return -1;
+
+    gpio_request(SCL_PIN, "scl");
+    gpio_request(SDA_PIN, "sda");
+
+    gpio_direction_output(SCL_PIN, 1);
+    gpio_direction_output(SDA_PIN, 1);
+
+    return 0;
+}
+
+static void gpio_deinit(void)
+{
+    gpio_free(SCL_PIN);
+    gpio_free(SDA_PIN);
+}
+
+static struct i2c_algo_bit_data bit_data = {
+    .setsda  = set_sda,
+    .setscl  = set_scl,
+    .getsda  = read_sda,
+    .getscl  = read_scl,
+    .udelay  = 5,
+    .timeout = 100,
+};
+
+static struct i2c_adapter i2c_bus = {
+    .owner     = THIS_MODULE,
+    .class     = I2C_CLASS_HWMON,
+    .name      = BUS_NAME,
+    .algo_data = &bit_data,
+    .nr        = 5,
+};
+
+static int __init bus_init(void)
+{
+    gpio_init();
+    i2c_bit_add_numbered_bus(&i2c_bus);
+    pr_info("I2C bus loaded\n");
+    return 0;
+}
+
+static void __exit bus_exit(void)
+{
+    i2c_del_adapter(&i2c_bus);
+    gpio_deinit();
+    pr_info("I2C bus unloaded\n");
+}
+
+module_init(bus_init);
+module_exit(bus_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Haril");
+

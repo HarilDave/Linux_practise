@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Embetronics_linux/Part_39/modules.order := {   echo /home/haril/Desktop/Haril/Embetronics_linux/Part_39/simple_i2c_adapter.o; :; } > /home/haril/Desktop/Haril/Embetronics_linux/Part_39/modules.order

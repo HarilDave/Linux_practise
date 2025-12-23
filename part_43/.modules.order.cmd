@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Embetronics_linux/part_43/modules.order := {   echo /home/haril/Desktop/Haril/Embetronics_linux/part_43/my_select_drv.o; :; } > /home/haril/Desktop/Haril/Embetronics_linux/part_43/modules.order
