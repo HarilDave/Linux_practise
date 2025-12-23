@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Linux_playlist_3/Create_device/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/haril/Desktop/Haril/Linux_playlist_3/Create_device/Module.symvers -T /home/haril/Desktop/Haril/Linux_playlist_3/Create_device/modules.order -i Module.symvers -e 

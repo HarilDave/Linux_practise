@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Linux_playlist_3/major_minor_num/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/haril/Desktop/Haril/Linux_playlist_3/major_minor_num/Module.symvers -T /home/haril/Desktop/Haril/Linux_playlist_3/major_minor_num/modules.order -i Module.symvers -e 

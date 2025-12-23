@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Linux_playlist_3/Create_device/create_device.mod := printf '%s\n'   create_device.o | awk '!x[$$0]++ { print("/home/haril/Desktop/Haril/Linux_playlist_3/Create_device/"$$0) }' > /home/haril/Desktop/Haril/Linux_playlist_3/Create_device/create_device.mod

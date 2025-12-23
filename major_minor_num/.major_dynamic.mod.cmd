@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Linux_playlist_3/major_minor_num/major_dynamic.mod := printf '%s\n'   major_dynamic.o | awk '!x[$$0]++ { print("/home/haril/Desktop/Haril/Linux_playlist_3/major_minor_num/"$$0) }' > /home/haril/Desktop/Haril/Linux_playlist_3/major_minor_num/major_dynamic.mod

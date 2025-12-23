@@ -1,0 +1,1 @@
+savedcmd_/home/haril/Desktop/Haril/Linux_playlist_3/Create_class/create_class.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/haril/Desktop/Haril/Linux_playlist_3/Create_class/create_class.ko /home/haril/Desktop/Haril/Linux_playlist_3/Create_class/create_class.o /home/haril/Desktop/Haril/Linux_playlist_3/Create_class/create_class.mod.o
